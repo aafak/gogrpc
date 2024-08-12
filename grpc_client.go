@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/metadata"
 )
 
 func main() {
@@ -25,15 +26,22 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	r, err := userService.CreateUser(ctx, &userpb.UserRequest{Name: "User1"})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
-	}
-	log.Printf("User Id: %s, Name: %s", r.GetId(), r.GetName())
+	// Attach metadata to context
+	md := metadata.Pairs(
+		"authToken", "token000",
+		"traceId", "tarceId123",
+	)
+	ctx = metadata.NewOutgoingContext(ctx, md)
 
-	vm, err := vmService.CreateVirtualMachine(ctx, &vmpb.VirtualMachineRequest{Name: "vm1"})
+	userResponse, err := userService.CreateUser(ctx, &userpb.UserRequest{Name: "User1"})
 	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+		log.Fatalf("could not create user: %v", err)
 	}
-	log.Printf("VM ID: %s, Name: %s", vm.GetId(), r.GetName())
+	log.Printf("User Id: %s, Name: %s", userResponse.GetId(), userResponse.GetName())
+
+	vmResponse, err := vmService.CreateVirtualMachine(ctx, &vmpb.VirtualMachineRequest{Name: "vm1"})
+	if err != nil {
+		log.Fatalf("could not create VM: %v", err)
+	}
+	log.Printf("VM ID: %s, Name: %s", vmResponse.GetId(), vmResponse.GetName())
 }
