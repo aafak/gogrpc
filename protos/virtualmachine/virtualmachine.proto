@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service VirtualMachineService{
+    rpc CreateVirtualMachine(VirtualMachineRequest) returns (VirtualMachineResponse);
+}
+
+message VirtualMachineRequest{
+    string name = 1;
+}
+
+message VirtualMachineResponse{
+    string id =1;
+    string name =2;
+}
