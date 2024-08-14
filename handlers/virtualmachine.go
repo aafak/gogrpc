@@ -15,7 +15,8 @@ type VirtualMachineServicer struct {
 }
 
 // CreateVirtualMachine is a function that implements the CreateVirtualMachine method of the VirtualMachineServiceServer interface
-func (s *VirtualMachineServicer) CreateVirtualMachine(ctx context.Context, req *vmpb.VirtualMachineRequest) (*vmpb.VirtualMachineResponse, error) {
+func (s *VirtualMachineServicer) CreateVirtualMachine(
+	ctx context.Context, req *vmpb.VirtualMachineRequest) (*vmpb.VirtualMachineResponse, error) {
 	log.Printf("CreateVM function was invoked with request: %+v", req)
 
 	md, ok := metadata.FromIncomingContext(ctx)
