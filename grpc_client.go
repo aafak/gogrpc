@@ -13,11 +13,13 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
+// PS C:\Users\aafakmoh\github-repos\personel\gogrpc> gofmt -s -w .\grpc_client.go
+
 func main() {
 	grpcClient, err := grpc.NewClient("localhost:50051",
 		grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatalf("did not connect: %v", err)
+		log.Fatalf("Could not  connect: %v", err)
 	}
 	defer grpcClient.Close()
 	userService := userpb.NewUserServiceClient(grpcClient)
@@ -35,13 +37,13 @@ func main() {
 
 	userResponse, err := userService.CreateUser(ctx, &userpb.UserRequest{Name: "User1"})
 	if err != nil {
-		log.Fatalf("could not create user: %v", err)
+		log.Panicf("could not create user: %v", err)
 	}
 	log.Printf("User Id: %s, Name: %s", userResponse.GetId(), userResponse.GetName())
 
 	vmResponse, err := vmService.CreateVirtualMachine(ctx, &vmpb.VirtualMachineRequest{Name: "vm1"})
 	if err != nil {
-		log.Fatalf("could not create VM: %v", err)
+		log.Panicf("could not create VM: %v", err)
 	}
 	log.Printf("VM ID: %s, Name: %s", vmResponse.GetId(), vmResponse.GetName())
 }

@@ -29,11 +29,11 @@ func (s *VirtualMachineServicer) CreateVirtualMachine(ctx context.Context, req *
 	if len(authTokenValues) != 0 {
 		fmt.Printf("authToken: %v\n", authTokenValues[0])
 	}
-	traceId := md.Get("traceId")
-	fmt.Printf("traceId: %v, type: %T\n", traceId, traceId) // []string
+	traceID := md.Get("traceId")
+	fmt.Printf("traceId:  %v, type: %T\n", traceID, traceID) // []string
 
-	spanId := md.Get("spanId")                           // invalid key
-	fmt.Printf("spanId: %v, type: %T\n", spanId, spanId) //  [], type: []string
+	spanID := md.Get("spanId")                           // invalid key
+	fmt.Printf("spanId: %v, type: %T\n", spanID, spanID) //  [], type: []string
 
 	return &vmpb.VirtualMachineResponse{Name: "Hello " + req.GetName(), Id: "123"}, nil
 }
