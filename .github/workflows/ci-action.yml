@@ -28,5 +28,5 @@ jobs:
     
     - name: Run golangci-lint
       run: |
-        golangci-lint run --config=.golangci.yaml --print-issued-lines=false --out-format=colored-line-number --issues-exit-code=0
+        golangci-lint run --config=.golangci.yaml --print-issued-lines=false --out-format=colored-line-number --issues-exit-code=1
       continue-on-error: false
